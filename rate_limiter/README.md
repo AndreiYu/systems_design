@@ -1,4 +1,4 @@
-![rate-limiter](http://www.plantuml.com/plantuml/proxy?cache=no&src=system-design.puml)
+![rate-limiter](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://github.com/AndreiYu/systems_design/blob/master/rate_limiter/system-design.puml)
 
 ======================
 ### Rate limiter types
