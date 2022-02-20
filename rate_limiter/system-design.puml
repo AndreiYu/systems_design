@@ -1,0 +1,52 @@
+@startuml
+!include <logos/kafka.puml>
+!include <logos/redis.puml>
+!include <logos/postgresql.puml>
+
+!theme sandstone
+
+title "Rate-limiter"
+
+[Client]
+[Rate-limiter middleware] as rate_limiter
+[API Servers <&cog>] as api_servers
+
+package "Dropped requests" {
+    [Ban <&ban>] as ban
+    queue "<$kafka>" as kafka
+}
+
+package "Rules persistence" {
+    [Workers <&cog>] as workers
+    database "<$postgresql>" as sqldb {
+      [Rules]
+    }
+    database cache {
+      [Cached rules]
+    }
+}
+
+database "<$redis>" as redis {
+  frame "Redis" {
+    [Rate limit state]
+  }
+}
+
+[Client] --> [rate_limiter]  : send request
+[Client] <.. [rate_limiter]  : SC_429 'too many requests'
+[rate_limiter] --> [Cached rules]
+[Cached rules] <-- [workers]
+[workers] --> [Rules]
+[rate_limiter] --> [api_servers] : success
+[rate_limiter] <--> [Rate limit state]
+[rate_limiter] ..> [ban] : option 1
+[rate_limiter] ..> [kafka] : option 2
+
+legend
+1) Workers can be removed with 'write-through' cache
+2) Rate limiter in a distributed environment:
+* Race condition (<s>synchronization locks</s> is slow!, Lua script run on Redis[7] or Redis sorted sets[4])
+* Synchronization between multiple rate-limiter machines (<s>sticky sessions</s> isn't scalable or flexible! Use centralized data store like Redis)
+end legend
+
+@enduml

@@ -1,0 +1,17 @@
+# Compiled class file
+*.class
+
+# Idea
+*.iml
+.idea
+
+# Log file
+*.log
+
+/bin/
+/.settings/
+.classpath
+.project
+/target/
+
+/.idea/

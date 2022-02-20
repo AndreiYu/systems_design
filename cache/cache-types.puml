@@ -1,0 +1,87 @@
+@startuml
+entity Application
+collections Cache
+database DB
+'autonumber
+
+title Cache Aside
+group cache hit
+    Application -> Cache : get from cache
+    Cache -> Application : read from cache
+end
+group cache miss
+    Cache --> Application : cache miss, read from DB
+    Application --> DB : read from DB
+    Application --> Cache : write to cache
+end
+legend
+    Cache-aside caches are usually general purpose and work best for read-heavy workloads. Memcached and Redis are widely used.
+    Systems using cache-aside are resilient to cache failures. If the cache cluster goes down, the system can still operate by going directly to the database.
+    (Although, it doesn’t help much if cache goes down during peak load. Response times can become terrible and in worst case, the database can stop working.)
+    Another benefit is that the data model in cache can be different than the data model in database.
+    E.g. the response generated as a result of multiple queries can be stored against some request id.
+    When cache-aside is used, the most common write strategy is to write data to the database directly.
+    When this happens, cache may become inconsistent with the database. To deal with this, developers generally use time to live (TTL) and continue serving stale data until TTL expires.
+    If data freshness must be guaranteed, developers either invalidate the cache entry or use an appropriate write strategy"
+end legend
+
+newpage Read-Through Cache
+group cache hit
+    Application -> Cache : get from cache
+    Cache -> Application : read from cache
+end
+group cache miss
+    Cache --> DB : read from DB
+    DB --> Cache : store in cache
+end
+legend
+    Read-through caches work best for read-heavy workloads when the same data is requested many times. For example, a news story. The disadvantage is that when the data is requested the first time,
+    it always results in cache miss and incurs the extra penalty of loading data to the cache.
+    Developers deal with this by ‘warming’ or ‘pre-heating’ the cache by issuing queries manually.
+    In cache-aside, the application is responsible for fetching data from the database and populating the cache. In read-through, this logic is usually supported by the library or stand-alone cache provider.
+    Unlike cache-aside, the data model in read-through cache cannot be different than that of the database.
+end legend
+
+newpage Write-Through Cache
+Application -> Cache : write to cache
+Cache -> DB : write to DB
+legend
+    On its own, write-through caches don’t seem to do much, in fact, they introduce extra write latency because data is written to the cache first and then to the main database.
+    But when paired with read-through caches, we get all the benefits of read-through and we also get data consistency guarantee, freeing us from using cache invalidation techniques.
+    DynamoDB Accelerator (DAX) is a good example of read-through / write-through cache.
+end legend
+
+newpage Write-Around Cache
+Application -> DB : write to DB
+group cache hit
+    Application -> Cache : get from cache
+    Cache -> Application : read from cache
+end
+group cache miss
+    Cache --> Application : cache miss, read from DB
+    Cache --> DB : read from DB and write to cache
+    Cache --> Application : read from cache
+end
+legend
+    Data is written directly to the database and only the data that is read makes it way into the cache.
+    Write-around can be combine with read-through and provides good performance in situations where data is written once and read less frequently or never. For example, real-time logs or chatroom messages.
+    Likewise, this pattern can be combined with cache-aside as well.
+end legend
+
+newpage Write-Back Cache
+Application -> Cache : write to cache
+Application -> Cache : write to cache
+Application -> Cache : write to cache
+Cache --> DB : write to DB in background async
+legend
+    Here, the application writes data to the cache which acknowledges immediately and after some delay, it writes the data back to the database.
+    Write back caches improve the write performance and are good for write-heavy workloads. When combined with read-through, it works good for mixed workloads, where the most recently updated and accessed data is always available in cache.
+    It’s resilient to database failures and can tolerate some database downtime.
+    If batching or coalescing is supported, it can reduce overall writes to the database, which decreases the load and reduces costs, if the database provider charges by number of requests e.g.
+    DynamoDB. Keep in mind that DAX is write-through so you won’t see any reductions in costs if your application is write heavy.
+    Some developers use Redis for both cache-aside and write-back to better absorb spikes during peak load. The main disadvantage is that if there’s a cache failure, the data may be permanently lost.
+end legend
+
+@enduml
+
+
