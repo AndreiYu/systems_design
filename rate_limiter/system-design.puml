@@ -35,7 +35,7 @@ database "<$redis>" as redis {
 [Client] --> [rate_limiter]  : send request
 [Client] <.. [rate_limiter]  : SC_429 'too many requests'
 note right of [Client]
-    Clent can get from rate_limiter following headers:
+    Client can receive from rate_limiter following headers:
     "X-Ratelimit-Remaining",
     "X-Ratelimit-Limit",
     "X-Ratelimit-Retry-After"

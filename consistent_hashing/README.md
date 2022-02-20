@@ -1,5 +1,8 @@
 ![consistent_hashing](https://puml-demo.herokuapp.com/github/AndreiYu/systems_design/blob/master/consistent_hashing/consistent_hashing.puml)
 
+The basic idea behind the consistent hashing algorithm is to hash both objects and caches using the same hash function. The reason to do this is to map the cache to an interval, 
+which will contain a number of object hashes. If the cache is removed then its interval is taken over by a cache with an adjacent interval. All the other caches remain unchanged.
+
 ### Reference materials
 1) [Consistent hashing](https://en.wikipedia.org/wiki/Consistent_hashing)
 2) [Consistent Hashing](https://tom-e-white.com/2007/11/consistent-hashing.html)
