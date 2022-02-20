@@ -1,0 +1,25 @@
+@startuml
+
+entity Application
+collections Cache
+database DB
+'autonumber
+
+title Write-Around Cache
+Application -> DB : write to DB
+group cache hit
+    Application -> Cache : get from cache
+    Cache -> Application : read from cache
+end
+group cache miss
+    Cache --> Application : cache miss, read from DB
+    Cache --> DB : read from DB and write to cache
+    Cache --> Application : read from cache
+end
+legend
+    Data is written directly to the database and only the data that is read makes it way into the cache.
+    Write-around can be combine with read-through and provides good performance in situations where data is written once and read less frequently or never. For example, real-time logs or chatroom messages.
+    Likewise, this pattern can be combined with cache-aside as well.
+end legend
+
+@enduml

@@ -1,0 +1,25 @@
+@startuml
+
+entity Application
+collections Cache
+database DB
+'autonumber
+
+title Read-Through Cache
+group cache hit
+    Application -> Cache : get from cache
+    Cache -> Application : read from cache
+end
+group cache miss
+    Cache --> DB : read from DB
+    DB --> Cache : store in cache
+end
+legend
+    Read-through caches work best for read-heavy workloads when the same data is requested many times. For example, a news story. The disadvantage is that when the data is requested the first time,
+    it always results in cache miss and incurs the extra penalty of loading data to the cache.
+    Developers deal with this by ‘warming’ or ‘pre-heating’ the cache by issuing queries manually.
+    In cache-aside, the application is responsible for fetching data from the database and populating the cache. In read-through, this logic is usually supported by the library or stand-alone cache provider.
+    Unlike cache-aside, the data model in read-through cache cannot be different than that of the database.
+end legend
+
+@enduml

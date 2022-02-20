@@ -3,7 +3,7 @@
 !include <logos/redis.puml>
 !include <logos/postgresql.puml>
 
-!theme sandstone
+'!theme blueprint
 
 title "Rate-limiter"
 

@@ -1,0 +1,27 @@
+@startuml
+entity Application
+collections Cache
+database DB
+'autonumber
+
+title Cache Aside
+group cache hit
+    Application -> Cache : get from cache
+    Cache -> Application : read from cache
+end
+group cache miss
+    Cache --> Application : cache miss, read from DB
+    Application --> DB : read from DB
+    Application --> Cache : write to cache
+end
+legend
+    Cache-aside caches are usually general purpose and work best for read-heavy workloads. Memcached and Redis are widely used.
+    Systems using cache-aside are resilient to cache failures. If the cache cluster goes down, the system can still operate by going directly to the database.
+    (Although, it doesn’t help much if cache goes down during peak load. Response times can become terrible and in worst case, the database can stop working.)
+    Another benefit is that the data model in cache can be different than the data model in database.
+    E.g. the response generated as a result of multiple queries can be stored against some request id.
+    When cache-aside is used, the most common write strategy is to write data to the database directly.
+    When this happens, cache may become inconsistent with the database. To deal with this, developers generally use time to live (TTL) and continue serving stale data until TTL expires.
+    If data freshness must be guaranteed, developers either invalidate the cache entry or use an appropriate write strategy"
+end legend
+@enduml

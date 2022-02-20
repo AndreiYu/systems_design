@@ -1,0 +1,22 @@
+@startuml
+
+entity Application
+collections Cache
+database DB
+'autonumber
+
+title Write-Back Cache
+Application -> Cache : write to cache
+Application -> Cache : write to cache
+Application -> Cache : write to cache
+Cache --> DB : write to DB in background async
+legend
+    Here, the application writes data to the cache which acknowledges immediately and after some delay, it writes the data back to the database.
+    Write back caches improve the write performance and are good for write-heavy workloads. When combined with read-through, it works good for mixed workloads, where the most recently updated and accessed data is always available in cache.
+    It’s resilient to database failures and can tolerate some database downtime.
+    If batching or coalescing is supported, it can reduce overall writes to the database, which decreases the load and reduces costs, if the database provider charges by number of requests e.g.
+    DynamoDB. Keep in mind that DAX is write-through so you won’t see any reductions in costs if your application is write heavy.
+    Some developers use Redis for both cache-aside and write-back to better absorb spikes during peak load. The main disadvantage is that if there’s a cache failure, the data may be permanently lost.
+end legend
+
+@enduml
