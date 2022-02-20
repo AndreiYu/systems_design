@@ -1,0 +1,48 @@
+@startuml
+
+title "Consistent Hashing"
+
+node "Server 0" {
+'virtual nodes
+  [S0_0]
+  [S0_1]
+}
+node "Server 1" {
+'virtual nodes
+  [S1_0]
+  [S1_1]
+}
+node "Server 2" {
+'virtual nodes
+  [S2_0]
+  [S2_1]
+}
+note left of [S2_0]
+    Adding new Server breaks
+    links [S1_1] -> [S0_0]
+    in favour of [S1_1] -> [S2_0]
+    [S2_0] also takes k3 from [S1_1]
+end note
+
+[S0_0] -> [S1_0]
+[S1_0] --> k1
+[S1_0] -> [S0_1]
+[S0_1] -- k2
+[S0_1] -> [S1_1]
+[S1_1] --> k3
+[S1_1] -> [S0_0]
+[S1_1] ..> [S2_0]
+[S2_0] ..> k3
+[S2_0] ..> [S0_0]
+
+legend
+    The benefits of consistent hashing include:
+    * Minimized keys are redistributed when servers are added or removed.
+    * It is easy to scale horizontally because data are more evenly distributed.
+    * Mitigate hotspot key problem. Excessive access to a specific shard could cause server
+    overload. Imagine data for Katy Perry, Justin Bieber, and Lady Gaga all end up on the
+    same shard. Consistent hashing helps to mitigate the problem by distributing the data more
+    evenly.
+end legend
+
+@enduml
