@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+title Distributed key-value store
+
+cloud {
+    [client]
+}
+
+node "Nodes" {
+  component S1 [
+    coordinator
+  ]
+  S1 - S2
+  S2 - S3
+  S3 - S4
+  S4 - S1
+}
+
+[client] --> S1: read/write
+S1 ..> [client]: response
+S1 --> S4: duplicate write
+S4 ..> S1: response
+S1 --> S3: duplicate write
+S3 ..> S1: response
+
+node "Node Functionality" {
+    [Client API]
+    [Failure detection]
+    [Conflict resolution]
+    [Replication]
+    [Storage]
+    [...]
+}
+
+@enduml

@@ -1,0 +1,34 @@
+@startuml
+'https://plantuml.com/state-diagram
+
+title Vector clock sample
+
+state fork_state <<fork>>
+state join_state <<join>>
+
+scale 350 width
+[*] --> D1: write handled by Sx
+D1: D1([Sx, 1])
+D1 --> D2: write handled by Sx
+D2: D2([Sx, 2])
+D2 --> fork_state
+fork_state --> D3: write handled by Sy
+fork_state --> D4: write handled by Sz
+D3: D3([Sx, 2], [Sy, 1])
+D4: D4([Sx, 2], [Sz, 1])
+D3 --> join_state
+D4 --> join_state
+join_state --> D5
+D5 --> [*]: collision resolved and written by Sx
+D5: D5([Sx, 3], [Sy, 1], [Sz, 1])
+
+legend
+    Even though vector clocks can resolve conflicts, there are two notable downsides:
+    * Vector clocks add complexity to the client because it needs to implement conflict resolution logic.
+    * The [server: version] pairs in the vector clock could grow rapidly. To fix this
+        problem, we set a threshold for the length, and if it exceeds the limit, the oldest pairs are
+        removed. This can lead to inefficiencies in reconciliation because the descendant relationship
+        cannot be determined accurately
+end legend
+
+@enduml

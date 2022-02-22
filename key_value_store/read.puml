@@ -1,0 +1,38 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+title Read design
+
+cloud {
+    [client]
+}
+
+node "Server" {
+    frame "Memory" {
+        [memory cache]
+    }
+    frame "Disk" {
+        folder "write" {
+            queue {
+             [commit log]
+            }
+            database {
+             [ss tables]
+            }
+        }
+        folder "read" {
+            [result data]
+            [bloom filter]
+        }
+    }
+}
+
+[client] --> [memory cache]: read request
+[memory cache] ..> [client]: found in cache
+[client] --> [memory cache]: read request
+[memory cache] --> [bloom filter]: not in cache
+[bloom filter] --> [ss tables]
+[ss tables] --> [result data]
+[result data] ..> [client]
+
+@enduml

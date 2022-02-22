@@ -9,7 +9,7 @@ Project inspired by reading Alex Xu's  [System Design Interview](https://www.ama
 | 0   | [Cache](cache/README.md)                             |       |
 | 1   | [Rate Limiter](rate_limiter/README.md)               |       |
 | 2   | [Consistent Hashing](consistent_hashing/README.md)   |       |
-| 3   | Key-value Store                                      |       |
+| 3   | [Key-value Store](key_value_store/README.md)         |       |
 | 4   | Unique Id Generator In Distributed Systems           |       |
 | 5   | Url Shortener                                        |       |
 | 6   | Web Crawler                                          |       |

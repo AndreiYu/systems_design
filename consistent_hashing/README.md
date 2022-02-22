@@ -3,6 +3,11 @@
 The basic idea behind the consistent hashing algorithm is to hash both objects and caches using the same hash function. The reason to do this is to map the cache to an interval, 
 which will contain a number of object hashes. If the cache is removed then its interval is taken over by a cache with an adjacent interval. All the other caches remain unchanged.
 
+
+###Alternative illustration
+
+![img.png](img.png)
+
 ### Reference materials
 1) [Consistent hashing](https://en.wikipedia.org/wiki/Consistent_hashing)
 2) [Consistent Hashing](https://tom-e-white.com/2007/11/consistent-hashing.html)

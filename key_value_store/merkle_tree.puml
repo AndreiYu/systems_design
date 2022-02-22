@@ -1,0 +1,60 @@
+@startuml
+'https://plantuml.com/state-diagram
+
+title Merkle tree sample
+
+state Server1 {
+    s1_0 --> s1_1_1
+    s1_0 --> s1_1_2
+    s1_0: 8676
+    s1_1_1 --> s1_2_1
+    s1_1_1 --> s1_2_2
+    s1_1_2 --> s1_2_3
+    s1_1_2 --> s1_2_4
+
+    state s1_1_1
+    s1_1_1: 7762
+    state s1_1_2
+    s1_1_2: 1234
+    state s1_2_1
+    s1_2_1: abc -> 7765
+    state s1_2_2
+    s1_2_2: hhf -> 8765
+    state s1_2_3
+    s1_2_3: rre -> 2223
+    state s1_2_4
+    s1_2_4: ffdr -> 9223
+}
+
+state Server2 {
+    s2_0 #red --> s2_1_1
+    s2_0 --> s2_1_2
+    s2_0: 9976
+    s2_1_1 --> s2_2_1
+    s2_1_1 --> s2_2_2
+    s2_1_2 --> s2_2_3
+    s2_1_2 --> s2_2_4
+
+    state s2_1_1
+    s2_1_1: 7762
+    state s2_1_2 #red
+    s2_1_2: 4239
+    state s2_2_1
+    s2_2_1: abc -> 7765
+    state s2_2_2
+    s2_2_2: hhf -> 8765
+    state s2_2_3
+    s2_2_3: rre -> 2223
+    state s2_2_4 #red
+    s2_2_4: null
+}
+
+
+legend
+    To compare two Merkle trees, start by comparing the root hashes. If root hashes match, both
+    servers have the same data. If root hashes disagree, then the left child hashes are compared
+    followed by right child hashes. You can traverse the tree to find which buckets are not
+    synchronized and synchronize those buckets only.
+end legend
+
+@enduml

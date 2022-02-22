@@ -1,0 +1,34 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+title Write design
+
+cloud {
+    [client]
+}
+
+node "Server" {
+    frame "Memory" {
+        [memory cache]
+    }
+    frame "Disk" {
+        folder "write" {
+            queue {
+             [commit log]
+            }
+            database {
+             [ss tables]
+            }
+        }
+        folder "read" {
+            [result data]
+            [bloom filter]
+        }
+    }
+}
+
+[client] --> [memory cache]: write request
+[client] --> [commit log]: persist
+[memory cache] --> [ss tables]: flush
+
+@enduml
