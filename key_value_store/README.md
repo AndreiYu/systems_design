@@ -1,5 +1,3 @@
-![key_value_store](https://puml-demo.herokuapp.com/github/AndreiYu/systems_design/blob/master/key_value_store/key_value_store.puml)
-
 ### Data partitioning and replication
 * Using consistent hashing to partition data allows:  
   **Automatic scaling**: servers could be added and removed automatically depending on the load.

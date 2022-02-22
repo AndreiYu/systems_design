@@ -4,7 +4,7 @@ The basic idea behind the consistent hashing algorithm is to hash both objects a
 which will contain a number of object hashes. If the cache is removed then its interval is taken over by a cache with an adjacent interval. All the other caches remain unchanged.
 
 
-###Alternative illustration
+### Alternative illustration
 
 ![img.png](img.png)
 

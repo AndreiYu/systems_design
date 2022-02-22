@@ -31,8 +31,8 @@ node "Server" {
 [memory cache] ..> [client]: found in cache
 [client] --> [memory cache]: read request
 [memory cache] --> [bloom filter]: not in cache
-[bloom filter] --> [ss tables]
-[ss tables] --> [result data]
+[bloom filter] --> [ss tables]: use filter to find ss table
+[ss tables] --> [result data]: read from table
 [result data] ..> [client]
 
 @enduml
