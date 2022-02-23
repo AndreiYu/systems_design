@@ -14,6 +14,7 @@ If `W + R > N`, strong consistency is guaranteed (Usually N = 3, W = R = 2).
 If `W + R <= N`, strong consistency is not guaranteed.  
 
 #### Inconsistency resolution: versioning  
+
 ![versioning](https://puml-demo.herokuapp.com/github/AndreiYu/systems_design/blob/master/key_value_store/versioning.puml)  
 A vector clock is a `[server, version]` pair associated with a data item. It can be used to check if one version precedes, succeeds, or in conflict with others.  
 
@@ -52,11 +53,15 @@ What if a replica is permanently unavailable? To handle such a situation, we imp
 ![merkle_tree](https://puml-demo.herokuapp.com/github/AndreiYu/systems_design/blob/master/key_value_store/merkle_tree.puml)
 
 ##### System design
+
 ![system_design](https://puml-demo.herokuapp.com/github/AndreiYu/systems_design/blob/master/key_value_store/high_level_design.puml)  
+
 ![write](https://puml-demo.herokuapp.com/github/AndreiYu/systems_design/blob/master/key_value_store/write.puml)  
+
 ![read](https://puml-demo.herokuapp.com/github/AndreiYu/systems_design/blob/master/key_value_store/read.puml)  
 
 ##### Summary
+
 ![img.png](img.png)
 
 ### Reference materials
