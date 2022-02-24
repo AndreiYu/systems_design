@@ -3,21 +3,23 @@
 
 title "Twitter Snowflake"
 
-component 1 [
-    1) 0: 1 bit
-]
-component 2 [
-    2) timestamp: 41 bits
-]
-component 3 [
-    3) datacenterId: 5 bits
-]
-component 4 [
-    4) machineId: 5 bits
-]
-component 5 [
-    5) seqNumber: 12 bits
-]
+node "Generated ID Sequence" {
+    component 1 [
+        1) 0: 1 bit
+    ]
+    component 2 [
+        2) timestamp: 41 bits
+    ]
+    component 3 [
+        3) datacenterId: 5 bits
+    ]
+    component 4 [
+        4) machineId: 5 bits
+    ]
+    component 5 [
+        5) seqNumber: 12 bits
+    ]
+}
 
 legend
     • Sign bit: 1 bit. It will always be 0. This is reserved for future uses. It can potentially be
