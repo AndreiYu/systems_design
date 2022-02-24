@@ -1,0 +1,25 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+title "Ticket server"
+
+[Web server <&cog>] as web_server1
+[Web server <&cog>] as web_server2
+[Web server <&cog>] as web_server3
+[Ticket server <&cog>] as ticket_server
+
+[web_server1] --> ticket_server
+[web_server2] --> ticket_server
+[web_server3] --> ticket_server
+
+legend
+    Pros:
+    • Numeric IDs.
+    • It is easy to implement, and it works for small to medium-scale applications.
+    Cons:
+    • Single point of failure. Single ticket server means if the ticket server goes down, all
+    systems that depend on it will face issues. To avoid a single point of failure, we can set up
+    multiple ticket servers. However, this will introduce new challenges such as data
+    synchronization.
+end legend
+@enduml
