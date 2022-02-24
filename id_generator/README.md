@@ -13,6 +13,7 @@
 Pros:  
 * Generating UUID is simple. No coordination between servers is needed so there will not be any synchronization issues.  
 * The system is easy to scale because each web server is responsible for generating IDs they consume. ID generator can easily scale with web servers.  
+
 Cons:  
 * IDs are 128 bits long, but our requirement is 64 bits.  
 * IDs do not go up with time.  
