@@ -1,0 +1,26 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+title "Hash collision resolution with adding predefined String"
+
+start
+repeat
+    :input longUrl;
+    :hashFn;
+        note left
+         take first 7 characters
+         of a full hash value
+        end note
+    :shortUrl;
+    backward: long Url + string;
+repeat while (exists in DB?) is (yes, has collision) not (no)
+:save to DB;
+stop
+
+legend
+    It's expensive to query DB each time, so <b>`bloom filter`</b>, a space-efficient
+    probabilistic technique to test if an element is a member of a set can be used
+end legend
+
+
+@enduml

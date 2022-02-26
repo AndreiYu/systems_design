@@ -26,11 +26,11 @@ Cons:
 Instead of generating an ID directly, we divide an ID into different sections.  
 ![snowflake](https://puml-demo.herokuapp.com/github/AndreiYu/systems_design/blob/master/id_generator/snowflake.puml)  
 
-Datacenter IDs and machine IDs are chosen at the startup time. Any changes in datacenter IDs and machine IDs require careful review since an accidental change in those values can lead to ID conflicts.   
-Timestamp and sequence numbers are generated when the ID generator is running.  
-The maximum timestamp that can be represented in 41 bits is   
+* Datacenter IDs and machine IDs are chosen at the startup time. Any changes in datacenter IDs and machine IDs require careful review since an accidental change in those values can lead to ID conflicts.   
+* Timestamp and sequence numbers are generated when the ID generator is running.  
+* The maximum timestamp that can be represented in 41 bits is   
 ```2 ^ 41 - 1 = 2199023255551 milliseconds (ms), which gives us: ~ 69 years```   
-Sequence number is 12 bits, which give us ```2 ^ 12 = 4096 combinations```. This field is 0 unless more than one ID is generated in a millisecond on the same server. In theory, a machine can support a maximum of 4096 new IDs per millisecond.
+* Sequence number is 12 bits, which give us ```2 ^ 12 = 4096 combinations```. This field is 0 unless more than one ID is generated in a millisecond on the same server. In theory, a machine can support a maximum of 4096 new IDs per millisecond.
 
 ### Reference materials
 1) [Snowflake](https://blog.twitter.com/engineering/en_us/a/2010/announcingsnowflake.html)

@@ -1,0 +1,26 @@
+@startuml
+!include <logos/postgresql.puml>
+
+title "URL shortener"
+
+[Client]
+[Load balancer] as alb
+[Web Servers <&cog>] as web_servers
+
+package "URLs persistence" {
+    database "<$postgresql>" as sqldb {
+        [db_urls]
+    }
+    database cache {
+        [cached_urls]
+    }
+}
+
+
+[Client] --> [alb]  : send request `GET myservice/api/fg55tl`
+[alb] ..> [Client]  : return longUrl `wiki.com/sfhhsk/hyuj`
+[alb] --> [web_servers]
+[web_servers] --> [cached_urls]
+[web_servers] --> [db_urls]
+
+@enduml

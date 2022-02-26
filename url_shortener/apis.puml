@@ -1,0 +1,29 @@
+@startuml
+title "APIs and flow"
+
+entity Client
+collections "URL shortener" as shortener
+collections "Original web-service" as original
+
+group shorten URL
+    Client -> shortener: POST `api/v1/data/shorten` request parameter: `{longUrl: longURLString}`
+    shortener --> Client: return `shortURL`
+end
+group visit shorten URL
+    Client -> shortener: GET `api/v1/shortUrl`
+    shortener --> Client: redirect `SC_301/SC_302`
+    Client -> original: GET to `long URL`
+end
+
+
+legend
+* <b>301 redirect.</b> A 301 redirect shows that the requested URL is “permanently” moved to the
+long URL. Browser caches the response.
+* <b>302 redirect.</b> A 302 redirect means that the URL is “temporarily” moved to the long URL,
+meaning that subsequent requests for the same URL will be sent to the URL shortening
+service first. Then, they are redirected to the long URL server.
+
+If the priority is to reduce the server load, using 301 redirect makes sense. If analytics is important,
+302 redirect is a better choice as it can track click rate and source of the click more easily.
+end legend
+@enduml

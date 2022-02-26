@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+title "Base 62"
+
+start
+:input longUrl;
+
+if (long Url in DB?) then (yes)
+else (no)
+    :Generate new ID;
+    :Convert ID to shortUrl with Base62;
+    :Save ID, shortUrl, longUrl in DB;
+    note left
+      ID: 7774748884848,
+      shortUrl: 77BZ
+      longUrl: asdf.com/ghhht/hrey
+    end note
+endIf
+    :return shortUrl;
+stop
+
+legend
+    We should use distributed ID generator (for ex. `Ticket service` or `Twitter snowflake`)
+end legend
+
+
+@enduml
