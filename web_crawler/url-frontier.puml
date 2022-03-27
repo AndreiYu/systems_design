@@ -1,0 +1,51 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+
+package "Priority front queue selector" {
+  [Prioritizer] -- [priority_1_queue]
+  [Prioritizer] -- [priority_2_queue]
+  [Prioritizer] -- [priority_3_queue]
+  [priority_1_queue] -- [Front_queue_selector]
+  [priority_2_queue] -- [Front_queue_selector]
+  [priority_3_queue] -- [Front_queue_selector]
+}
+
+package "Politeness back queue selector" {
+  [Back_queue_router] -- [Mapping table]
+  [Back_queue_router] -- [politeness_1_queue]
+  [Back_queue_router] -- [politeness_2_queue]
+  [Back_queue_router] -- [politeness_3_queue]
+  [politeness_1_queue] -- [Back_queue_selector]
+  [politeness_2_queue] -- [Back_queue_selector]
+  [politeness_3_queue] -- [Back_queue_selector]
+}
+
+note left of [politeness_1_queue]
+    Each queue contains URLs from the same host.
+end note
+
+note left of [Back_queue_selector]
+    Each worker thread is mapped to a FIFO queue, and it only downloads
+    URLs from that queue.
+    A worker thread downloads web pages one by one from the same
+    host with some delay.
+end note
+
+node "Workers" {
+  [Worker 1]
+  [Worker 2]
+  [Worker 3]
+}
+
+database "Mapping table" {
+}
+
+
+[Seed URL] --> [Prioritizer] : input URL
+[Front_queue_selector] --> [Back_queue_router] : output URLs
+[Back_queue_selector] --> [Worker 1]
+[Back_queue_selector] --> [Worker 2]
+[Back_queue_selector] --> [Worker 3]
+
+@enduml

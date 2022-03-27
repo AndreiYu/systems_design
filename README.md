@@ -13,7 +13,7 @@ Project inspired by reading Alex Xu's  [System Design Interview](https://www.ama
 | 3   | [Key-value Store](key_value_store/README.md)                         |       |
 | 4   | [Unique Id Generator In Distributed Systems](id_generator/README.md) |       |
 | 5   | [Url Shortener](url_shortener/README.md)                             |       |
-| 6   | Web Crawler                                                          |       |
+| 6   | [Web Crawler](web_crawler/README.md)                                 |       |
 | 7   | Notification System                                                  |       |
 | 8   | News Feed System                                                     |       |
 | 9   | Chat System                                                          |       |

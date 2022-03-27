@@ -1,5 +1,3 @@
-![instagram]()
-
 #### Requirements:
 • Read-to-write operations ratio 10:1  
 • Average URL length is 100  
